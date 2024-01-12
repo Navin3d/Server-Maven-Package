@@ -100,7 +100,7 @@ public class Server {
 		try {
 			ioResponseLines = this.executeCommand(ServerCommands.IO_READ_WRITE_COMMAND.toString());
 			String[] ioLines = ioResponseLines.get(0).split("\n");
-			Set<IOStatData> ioStats = new HashSet<>();
+			List<IOStatData> ioStats = new ArrayList<>();
 			for (int lineNo = 6; lineNo < ioLines.length; lineNo++) {
 				String ioLine = ioLines[lineNo];
 				IOStatData ioStatsdata = new IOStatData(ioLine);

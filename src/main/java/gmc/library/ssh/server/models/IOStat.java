@@ -2,14 +2,14 @@ package gmc.library.ssh.server.models;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IOStat implements Serializable {
     
     private static final long serialVersionUID = -2835692209855993705L;
 		
-	private Set<IOStatData> ioDatas = new HashSet<>();
+	private List<IOStatData> ioDatas = new ArrayList<>();
 		
 	private LocalDate capturedAt;
 	
@@ -17,11 +17,11 @@ public class IOStat implements Serializable {
 		this.capturedAt = LocalDate.now();
 	}
 
-	public Set<IOStatData> getIoDatas() {
+	public List<IOStatData> getIoDatas() {
 		return ioDatas;
 	}
 
-	public void setIoDatas(Set<IOStatData> ioDatas) {
+	public void setIoDatas(List<IOStatData> ioDatas) {
 		this.ioDatas = ioDatas;
 	}
 
