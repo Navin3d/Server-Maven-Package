@@ -1,4 +1,4 @@
-package gmc.library.ssh.server.models;
+package io.github.navin3d.ssh.server.models;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -13,9 +13,9 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
-import gmc.library.ssh.server.config.ServerCommands;
-import gmc.library.ssh.server.exceptions.CommandExecutionException;
-import gmc.library.ssh.server.exceptions.ServerConnectionException;
+import io.github.navin3d.ssh.server.config.ServerCommands;
+import io.github.navin3d.ssh.server.exceptions.CommandExecutionException;
+import io.github.navin3d.ssh.server.exceptions.ServerConnectionException;
 
 public class Server {
 	

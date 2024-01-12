@@ -1,4 +1,4 @@
-package gmc.library.ssh.server.exceptions;
+package io.github.navin3d.ssh.server.exceptions;
 
 public class ServerConnectionException extends Exception {
 

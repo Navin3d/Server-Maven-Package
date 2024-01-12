@@ -4,8 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import gmc.library.ssh.server.exceptions.CommandExecutionException;
-import gmc.library.ssh.server.exceptions.ServerConnectionException;
+import io.github.navin3d.ssh.server.exceptions.CommandExecutionException;
+import io.github.navin3d.ssh.server.exceptions.ServerConnectionException;
+import io.github.navin3d.ssh.server.models.Server;
 
 public class ServerTest {
 		

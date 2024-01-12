@@ -1,4 +1,4 @@
-package gmc.library.ssh.server.config;
+package io.github.navin3d.ssh.server.config;
 
 public enum ServerCommands {
 	

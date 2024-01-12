@@ -1,4 +1,4 @@
-package gmc.library.ssh.server.models;
+package io.github.navin3d.ssh.server.models;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
