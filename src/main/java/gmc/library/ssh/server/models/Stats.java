@@ -1,22 +1,12 @@
-package gmc.project.infrasight.statscaptureservice.entities.embedded;
+package gmc.library.ssh.server.models;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.Id;
-
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@Data
-public class StatsEntity implements Serializable {
+public class Stats implements Serializable {
 
 	private static final long serialVersionUID = -618501582385421256L;
-
-	@Id
-	private String id;
 
 	private Long availableRam;
 
@@ -25,6 +15,8 @@ public class StatsEntity implements Serializable {
 	private Long totalSwap;
 
 	private Long freeSwap;
+	
+	private String uptime;
 	
 	private Double cpuPerformance;
 	
@@ -36,16 +28,15 @@ public class StatsEntity implements Serializable {
 
 	private LocalDateTime capturedAt;
 	
-	public StatsEntity() {
+	public Stats() {
 		this.isActive = false;
 		this.capturedAt = LocalDateTime.now();
 	}
 	
-	public StatsEntity(String cpuLine, String ramLine, String swapLine, String loadLine) {
+	public Stats(String cpuLine, String ramLine, String swapLine, String loadLine) {
 		/*
 		 * RAM Lines
 		 */
-		log.error("cpuLine: {}", cpuLine);
 		String[] ramlines = ramLine.split("\n");
 		String totlram[] = ramlines[0].split("\\s+");
 		String memavail[] = ramlines[2].split("\\s+");
@@ -61,17 +52,13 @@ public class StatsEntity implements Serializable {
 		 * SWAP Lines
 		 */
 		String[] requiredSwapLines = swapLine.split("\n")[2].split("\\s+");
-		log.error("swapLine: {}", swapLine);
-		log.error("Total Swap: {}", Long.valueOf(requiredSwapLines[1].trim()));
-		log.error("Free Swap: {}", Long.valueOf(requiredSwapLines[3].trim()));
 
 		/*
 		 * LOAD Lines
 		 */
 		Double requiredLoadLines = Double.parseDouble(loadLine.split("users,\\s+")[1].split("\\s+")[4].trim());
-		log.error("loadLine: {}", loadLine);
-		log.error("Load: {}", requiredLoadLines);
 
+		this.uptime = loadLine.split(",")[0].trim();
 		this.availableRam = Long.parseLong(memavail[1]);
 		this.totalRam = Long.parseLong(totlram[1]);
 		this.totalSwap = Long.valueOf(requiredSwapLines[1].trim());
@@ -116,6 +103,82 @@ public class StatsEntity implements Serializable {
 	
 	public void setIsActive(Boolean active) {
 		this.isActive = active;
+	}
+
+	public Long getAvailableRam() {
+		return availableRam;
+	}
+
+	public void setAvailableRam(Long availableRam) {
+		this.availableRam = availableRam;
+	}
+
+	public Long getTotalRam() {
+		return totalRam;
+	}
+
+	public void setTotalRam(Long totalRam) {
+		this.totalRam = totalRam;
+	}
+
+	public Long getTotalSwap() {
+		return totalSwap;
+	}
+
+	public void setTotalSwap(Long totalSwap) {
+		this.totalSwap = totalSwap;
+	}
+
+	public Long getFreeSwap() {
+		return freeSwap;
+	}
+
+	public void setFreeSwap(Long freeSwap) {
+		this.freeSwap = freeSwap;
+	}
+
+	public Double getCpuPerformance() {
+		return cpuPerformance;
+	}
+
+	public void setCpuPerformance(Double cpuPerformance) {
+		this.cpuPerformance = cpuPerformance;
+	}
+
+	public Double getRamPerformance() {
+		return ramPerformance;
+	}
+
+	public void setRamPerformance(Double ramPerformance) {
+		this.ramPerformance = ramPerformance;
+	}
+
+	public Double getServerLoad() {
+		return serverLoad;
+	}
+
+	public void setServerLoad(Double serverLoad) {
+		this.serverLoad = serverLoad;
+	}
+
+	public LocalDateTime getCapturedAt() {
+		return capturedAt;
+	}
+
+	public void setCapturedAt(LocalDateTime capturedAt) {
+		this.capturedAt = capturedAt;
+	}
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public String getUptime() {
+		return uptime;
+	}
+
+	public void setUptime(String uptime) {
+		this.uptime = uptime;
 	}
 	
 }

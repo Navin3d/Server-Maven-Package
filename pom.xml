@@ -4,10 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gmc.library.ssh</groupId>
 	<artifactId>server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>SSH-Server</name>
 	<description>This Package helps developers to connect to remote servers
 		through ssh and execute command through java.</description>
+
+	<properties>
+		<maven.test.skip>true</maven.test.skip>
+	</properties>
 
 	<dependencies>
 		<dependency>

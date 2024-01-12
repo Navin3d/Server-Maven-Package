@@ -2,8 +2,10 @@ package gmc.library.ssh.server.models;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.jcraft.jsch.Channel;
@@ -11,6 +13,7 @@ import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
+import gmc.library.ssh.server.config.ServerCommands;
 import gmc.library.ssh.server.exceptions.CommandExecutionException;
 import gmc.library.ssh.server.exceptions.ServerConnectionException;
 
@@ -45,6 +48,71 @@ public class Server {
 	
 	private Session session;
 	
+	public Stats getStats() {
+		Stats stats = new Stats();
+		try {
+			List<String> ramResponseLines = this.executeCommand(ServerCommands.RAM_UTILIZATION_COMMAND.toString());								
+			List<String> cpuResponseLines = this.executeCommand(ServerCommands.CPU_UTILIZATION_COMMAND.toString());
+			List<String> loadResponseLine = this.executeCommand(ServerCommands.LOAD_AND_UPTIME_COMMAND.toString());
+			List<String> swapResponseLines = this.executeCommand(ServerCommands.SWAP_STAT_COMMAND.toString());
+			
+			if (!(cpuResponseLines == null && ramResponseLines == null && swapResponseLines == null && loadResponseLine == null)) {
+				String[] cpulines;
+				if (cpuResponseLines.size() == 2)
+					cpulines = cpuResponseLines.get(1).split("\n");
+				else
+					cpulines = cpuResponseLines.get(0).split("\n");
+				stats = new Stats(cpulines[3], ramResponseLines.get(0), swapResponseLines.get(0), loadResponseLine.get(0));
+			}
+		} catch (ServerConnectionException | CommandExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return stats;
+	}
+	
+	public DiscStats getDiscStats() {
+		DiscStats discStats = new DiscStats();
+		List<String> discResponse;
+		try {
+			discResponse = this.executeCommand(ServerCommands.DISC_UTILIZATION_COMMAND.toString());
+			if (discResponse != null) {
+				Set<DiscMount> discMounts = new HashSet<>();
+				for (String discLines : discResponse) {
+					String[] lines = discLines.split("\n");
+					for (int i = 1; i < lines.length; i++) {
+						String line = lines[i];
+						DiscMount discMount = new DiscMount(line);
+						discMounts.add(discMount);
+					}
+				}
+				discStats.setDiscMounts(discMounts);
+			}
+		} catch (ServerConnectionException | CommandExecutionException e) {
+			e.printStackTrace();
+		}
+		return discStats;
+	}
+	
+	public IOStat getIOStat() {
+		List<String> ioResponseLines;
+		IOStat ioStat = new IOStat();
+		try {
+			ioResponseLines = this.executeCommand(ServerCommands.IO_READ_WRITE_COMMAND.toString());
+			String[] ioLines = ioResponseLines.get(0).split("\n");
+			Set<IOStatData> ioStats = new HashSet<>();
+			for (int lineNo = 6; lineNo < ioLines.length; lineNo++) {
+				String ioLine = ioLines[lineNo];
+				IOStatData ioStatsdata = new IOStatData(ioLine);
+				ioStats.add(ioStatsdata);
+			}
+			ioStat.setIoDatas(ioStats);
+		} catch (ServerConnectionException | CommandExecutionException e) {
+			e.printStackTrace();
+		}
+		return ioStat;
+	}
+	
 	public Boolean isConnected() {
 		return this.session.isConnected();
 	}
@@ -71,7 +139,7 @@ public class Server {
 	}
 	
 	public Session getSession() throws ServerConnectionException {
-		if(!session.isConnected()) {
+		if(session == null) {
 			Properties jschConfig = new Properties();
 			jschConfig.put("StrictHostKeyChecking", "no");
 			JSch jsch = new JSch();

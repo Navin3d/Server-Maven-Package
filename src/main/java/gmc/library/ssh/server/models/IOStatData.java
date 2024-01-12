@@ -1,12 +1,7 @@
-package gmc.project.infrasight.statscaptureservice.entities.embedded;
+package gmc.library.ssh.server.models;
 
 import java.io.Serializable;
 
-import org.springframework.data.annotation.Id;
-
-import lombok.Data;
-
-@Data
 public class IOStatData implements Serializable {
 
     private static final long serialVersionUID = -5454181583827669670L;
@@ -23,9 +18,6 @@ public class IOStatData implements Serializable {
 		this.averageWrite = words[6];
 	}
 	
-	@Id
-	private String id;
-
 	private String device;
 
 	private String transferPerSecond;
@@ -37,5 +29,53 @@ public class IOStatData implements Serializable {
 	private String averageRead;
 
 	private String averageWrite;
+
+	public String getDevice() {
+		return device;
+	}
+
+	public void setDevice(String device) {
+		this.device = device;
+	}
+
+	public String getTransferPerSecond() {
+		return transferPerSecond;
+	}
+
+	public void setTransferPerSecond(String transferPerSecond) {
+		this.transferPerSecond = transferPerSecond;
+	}
+
+	public String getReadPerSecond() {
+		return readPerSecond;
+	}
+
+	public void setReadPerSecond(String readPerSecond) {
+		this.readPerSecond = readPerSecond;
+	}
+
+	public String getWritePerSecond() {
+		return writePerSecond;
+	}
+
+	public void setWritePerSecond(String writePerSecond) {
+		this.writePerSecond = writePerSecond;
+	}
+
+	public String getAverageRead() {
+		return averageRead;
+	}
+
+	public void setAverageRead(String averageRead) {
+		this.averageRead = averageRead;
+	}
+
+	public String getAverageWrite() {
+		return averageWrite;
+	}
+
+	public void setAverageWrite(String averageWrite) {
+		this.averageWrite = averageWrite;
+	}
     
 }

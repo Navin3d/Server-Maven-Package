@@ -1,16 +1,19 @@
 package gmc.library.ssh.server.models;
 
-import java.util.logging.Logger;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import gmc.library.ssh.server.exceptions.CommandExecutionException;
+import gmc.library.ssh.server.exceptions.ServerConnectionException;
+
 public class ServerTest {
-	
-	private static final Logger log = Logger.getLogger("ServerTest");
-	
+		
 	@Test
-	public void connect() {
-		log.info("Running test");
+	public void connect() throws ServerConnectionException, CommandExecutionException {
+		Server server = new Server("localhost", "navin", "navin", 1022);
+		System.out.print(server.getDiscStats().getDiscMounts().size());
+		assertEquals(5, server.getDiscStats().getDiscMounts().size());
 	}
 
 }
